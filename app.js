@@ -1,8 +1,12 @@
 const express = require('express');
 
 const sequelize = require('./config/database');
+const {errorHandler} = require('./middlewares/errors');
 
 const app = express();
+
+// Error Handller
+app.use(errorHandler);
 
 const PORT = process.env.POTR || 3000;
 
