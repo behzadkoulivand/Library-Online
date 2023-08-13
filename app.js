@@ -1,7 +1,10 @@
 const express = require('express');
+const dotEnv = require('dotenv');
 
 const sequelize = require('./config/database');
 const {errorHandler} = require('./middlewares/errors');
+
+dotEnv.config({path: "./config/config.env"});
 
 const app = express();
 
