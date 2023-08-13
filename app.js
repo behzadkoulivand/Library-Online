@@ -5,6 +5,13 @@ const {errorHandler} = require('./middlewares/errors');
 
 const app = express();
 
+// Body Parser
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+// Routes
+app.use("/users", require('./routes/users'));
+
 // Error Handller
 app.use(errorHandler);
 
