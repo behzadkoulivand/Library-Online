@@ -4,6 +4,44 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 const userValidation = require('../models/secure/userValidation');
 
+exports.login = async (req, res, next) => {
+    const {userCode, password} = req.body;
+    try {
+        const user = await User.findOne({ where: {userCode: userCode} });
+
+        if(!user){
+            const error = new Error("کاربری با این کدعضویت ثبت نشده است");
+            error.statusCode = 404;
+            throw error;
+        }
+            
+        const isMatch = await bcrypt.compare(password, user.password);
+
+        if(isMatch){
+            const token = jwt.sign(
+                {
+                    user: {
+                        // userId: user._id.toString(),
+                        userCode: user.userCode,
+                        fullname: user.fullname
+                    },
+                },
+                process.env.JWT_SECRET
+            );
+            res.status(200).json({ token, userCode: user.userCode });
+        } else {
+            const error = new Error("آدرس ایمیل یا کلمه عبور اشتباه است");
+            error.statusCode = 422;
+            throw error;
+        }
+            
+        
+    } catch (err) {
+        next(err);
+        
+    }
+}
+
 // exports.login = async (req, res) => {
 //     try {
 //         const {email, password} = req.body;
