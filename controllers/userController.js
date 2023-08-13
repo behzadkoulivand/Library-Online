@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
 const User = require('../models/User');
+const userValidation = require('../models/secure/userValidation');
 
 // exports.login = async (req, res) => {
 //     try {
@@ -49,6 +50,7 @@ const User = require('../models/User');
 exports.createUser = async (req, res, next) =>{
     try {
         const {userCode, fullName, password, phone} = req.body;
+        await userValidation(req.body);
 
         const user = await User.findOne({where: { userCode: userCode }});
         if(user){
