@@ -52,7 +52,7 @@ exports.createUser = async (req, res, next) =>{
 
         const user = await User.findOne({where: { userCode: userCode }});
         if(user){
-            const error = new Error("کاربری با این ایمیل موجود است");
+            const error = new Error("کاربری با این کدعضویت موجود است");
             error.statusCode = 422;
             throw error;
         } 
