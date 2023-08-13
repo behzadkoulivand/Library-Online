@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
 const User = require('../models/User');
-const { where } = require('sequelize');
 
 // exports.login = async (req, res) => {
 //     try {
@@ -47,21 +46,24 @@ const { where } = require('sequelize');
 //     }
 // }
 
-// exports.createUser = async (req, res) =>{
-//     try {
-//         const {userName, email, password} = req.body;
+exports.createUser = async (req, res, next) =>{
+    try {
+        const {userCode, fullName, password, phone} = req.body;
 
-//         const user = await User.findOne({where: {email: email}});
-//         if(user) return res.status(400).json("کاربری با این ایمیل قبلا ثبت شده است");
+        const user = await User.findOne({where: { userCode: userCode }});
+        if(user){
+            const error = new Error("کاربری با این ایمیل موجود است");
+            error.statusCode = 422;
+            throw error;
+        } 
 
-//         const hashPassword = await bcrypt.hash(password, 10);
+        const hashPassword = await bcrypt.hash(password, 10);
 
-//         await User.create({userName, email, password: hashPassword});
+        await User.create({userCode, fullName, password: hashPassword, phone});
         
-//         res.status(200).json("کاربر با موفقیت ثبت شد");
-//     } catch (err) {
-//         console.log(err);
-//         res.status(500).json("خطایی وجود دارد");
-//     }
+        res.status(200).json("عضویت با موفقیت انجام شد");
+    } catch (err) {
+        next(err);
+    }
     
-// }
+}
