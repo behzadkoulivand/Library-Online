@@ -1,14 +1,13 @@
 const {DataTypes} = require('sequelize');
 
 const sequelize = require('../config/database');
-const User = require('./User');
 
 const Book = sequelize.define("Book", {
     id: {
-        type: DataTypes.STRING,
-        allowNull: false,
+        type: DataTypes.INTEGER,
         primaryKey: true,
-        unique: true
+        autoIncrement: true
+        
     },
     name: {
         type: DataTypes.STRING,
@@ -25,6 +24,4 @@ const Book = sequelize.define("Book", {
     
 });
 
-Book.hasOne(User);
-
-module.exports = User;
+module.exports = Book;
