@@ -20,6 +20,10 @@ const Book = sequelize.define("Book", {
     reserved: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
+    },
+    reservator:{
+        type: DataTypes.INTEGER,
+        defaultValue: 0
     }
     
 });
