@@ -10,4 +10,6 @@ router.post("/register", authenticated, bookController.register);
 
 router.delete("/delete/:id", bookController.delete);
 
+router.put("/update/:id", bookController.update);
+
 module.exports = router;
