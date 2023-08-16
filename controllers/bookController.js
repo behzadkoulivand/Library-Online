@@ -27,4 +27,19 @@ exports.delete = async (req, res, next) =>{
     } catch (err) {
         next(err);
     }
+};
+
+exports.getBooks = async (req, res, next) => {
+    try {
+        const books = await Book.findAll();
+        if(!books){
+            const error = new Error("کتابی هنوز ثبت نشده است");
+            error.statusCode = 404;
+            throw error;
+        }
+        res.status(200).json(books);
+
+    } catch (err) {
+        next(err);
+    }
 }
