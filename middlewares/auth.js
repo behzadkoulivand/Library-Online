@@ -19,6 +19,7 @@ exports.authenticated = (req, res, next) => {
             error.statusCode = 401;
             throw error;
         }
+        req.userCode = decodedToken.user.userCode;
         next();
     } catch (err) {
         next(err);
