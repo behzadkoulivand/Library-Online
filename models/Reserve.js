@@ -22,7 +22,8 @@ const Reserve = sequelize.define("Reserve", {
         defaultValue: Date.now
     },
     returnDate: {
-        type: DataTypes.DATE
+        type: DataTypes.DATE,
+        allowNull: true
     }
 });
 
