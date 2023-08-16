@@ -6,4 +6,5 @@ const router = Router();
 
 router.post("/register", authenticated, bookController.register);
 
+router.delete("/delete/:id", bookController.delete);
 module.exports = router;
