@@ -17,9 +17,10 @@ app.use(express.json());
 app.use(setHeaders);
 
 // Routes
+app.use('/', require('./routes/reserve'));
 app.use("/users", require("./routes/user"));
 app.use("/books", require("./routes/book"));
-app.use('/', require('./routes/reserve'));
+
 
 // Error Handller
 app.use(errorHandler);
