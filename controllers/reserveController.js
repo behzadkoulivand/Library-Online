@@ -50,7 +50,7 @@ exports.returnBook = async (req, res, next) => {
         book.reservator = 0;
         book.save();
 
-        await Reserve.destroy({ where: { id } });
+        await Reserve.destroy({ where: { id } }) || await Reserve.destroy({ where: { book: id } });
         res.status(200).json("کتاب مورد نظر برگشت داده شد");
 
     } catch (err) {
@@ -61,10 +61,11 @@ exports.returnBook = async (req, res, next) => {
 exports.reservedBooks = async (req, res, next) => {
     try {
         const reservedBooks = await Reserve.findAll({ where: { user: req.userCode } });
-        if (!reservedBooks) {
-            const error = new Error("شما هنوز کتابی به امانت نگرفته‌اید");
+        if (reservedBooks.length == 0) {
+            const error = new Error("شما کتاب امانت گرفته شده‌ای ندارید");
             error.statusCode = 404;
             throw error;
+            // return res.status(404).json("شما کتاب امانت گرفته شده‌ای ندارید")
         }
 
         res.status(200).json(reservedBooks);
