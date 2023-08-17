@@ -8,4 +8,5 @@ router.post("/reserve-book/:id", authenticated, reseveController.borrowBook);
 
 router.delete("/return-book/:id", authenticated, reseveController.returnBook);
 
+router.get("/my-books", authenticated, reseveController.reservedBooks);
 module.exports = router;
