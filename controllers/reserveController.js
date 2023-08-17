@@ -56,4 +56,19 @@ exports.returnBook = async (req, res, next) => {
     } catch (err) {
         next(err);
     }
+};
+
+exports.reservedBooks = async (req, res, next) => {
+    try {
+        const reservedBooks = await Reserve.findAll({ where: { user: req.userCode } });
+        if (!reservedBooks) {
+            const error = new Error("شما هنوز کتابی به امانت نگرفته‌اید");
+            error.statusCode = 404;
+            throw error;
+        }
+
+        res.status(200).json(reservedBooks);
+    } catch (err) {
+        next(err);
+    }
 }
